@@ -1,3 +1,4 @@
+ <jsp:include page="menu.jsp" />
 <%@ page import="java.util.*" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <!DOCTYPE html>
