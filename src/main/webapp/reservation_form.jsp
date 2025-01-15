@@ -1,6 +1,4 @@
- <jsp:include page="menu.jsp" />
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -57,10 +55,12 @@
                 <% 
                     // システム日付から10日間分の日付を生成
                     java.util.Calendar calendar = java.util.Calendar.getInstance();
-                    java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("MM/dd(E)");
+                    java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
+                    java.text.SimpleDateFormat displayFormat = new java.text.SimpleDateFormat("MM/dd(E)");
+
                     for (int i = 0; i < 10; i++) {
-                        String date = sdf.format(calendar.getTime());
-                        out.print("<th>" + date + "</th>");
+                        String displayDate = displayFormat.format(calendar.getTime());
+                        out.print("<th>" + displayDate + "</th>");
                         calendar.add(java.util.Calendar.DATE, 1);
                     }
                 %>
@@ -68,26 +68,29 @@
         </thead>
         <tbody>
             <% 
-                // 時間（9:00～17:00）を生成
+                // ReservationDAOをインスタンス化
+                dao.ReservationDAO dao = new dao.ReservationDAO();
                 String[] times = {"09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00"};
+
                 for (String time : times) {
                     out.print("<tr>");
                     out.print("<td>" + time + "</td>");
-                    
-                    calendar = java.util.Calendar.getInstance(); // 再度初期化
+
+                    // 日付を再初期化してループ開始
+                    calendar = java.util.Calendar.getInstance();
                     for (int i = 0; i < 10; i++) {
                         String date = sdf.format(calendar.getTime());
-                        
-                        // DAOを利用して予約可否を確認 (仮実装: 全て予約可)
-                        boolean isAvailable = true; // ここでDBチェックを行い、予約可否を取得
-                        
+
+                        // DAOを利用して予約可否を確認
+                        boolean isAvailable = dao.checkAvailability(date, time);
+
                         if (isAvailable) {
                             out.print("<td><a href='confirmReservation.jsp?date=" + date + "&time=" + time + "'>◎</a></td>");
                         } else {
                             out.print("<td>×</td>");
                         }
-                        
-                        calendar.add(java.util.Calendar.DATE, 1);
+
+                        calendar.add(java.util.Calendar.DATE, 1); // 次の日付に移動
                     }
                     out.print("</tr>");
                 }

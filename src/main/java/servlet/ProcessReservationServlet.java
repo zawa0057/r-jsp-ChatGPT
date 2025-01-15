@@ -1,4 +1,5 @@
 package servlet;
+
 import java.io.IOException;
 
 import javax.servlet.ServletException;
@@ -6,10 +7,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import dao.ReservationDAO;
 
-@WebServlet("/rocessReservation")
+@WebServlet("/processReservation")
 public class ProcessReservationServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
@@ -18,7 +20,16 @@ public class ProcessReservationServlet extends HttpServlet {
         // フォームデータを取得
         String date = request.getParameter("date");
         String time = request.getParameter("time");
-        int userId = 1; // 仮実装: 本来はセッションから取得
+
+        // セッションからユーザーIDを取得
+        HttpSession session = request.getSession();
+        Integer userId = (Integer) session.getAttribute("userId");
+
+        if (userId == null) {
+            // セッションにユーザーIDがない場合はログインページへリダイレクト
+            response.sendRedirect("login.jsp");
+            return;
+        }
 
         // DAOを使って予約処理を実行
         ReservationDAO dao = new ReservationDAO();
