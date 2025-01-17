@@ -1,21 +1,28 @@
- <jsp:include page="menu.jsp" />
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%
+    // セッションからユーザー名を取得
+    String username = (String) session.getAttribute("username");
+
+    // 未ログインの場合、ログインページへリダイレクト
+    if (username == null) {
+        response.sendRedirect("login.jsp");
+        return;
+    }
+%>
+
 <!DOCTYPE html>
-<html lang="ja">
+<html>
 <head>
     <meta charset="UTF-8">
-    <title>予約表</title>
+    <title>予約画面</title>
 </head>
 <body>
-    <h1>予約表</h1>
-    <form action="reserve" method="post">
-        <label for="date">日付:</label>
-        <input type="date" id="date" name="date" required><br>
-        <label for="time">時間:</label>
-        <input type="time" id="time" name="time" required><br>
-        <label for="classroom">教室:</label>
-        <input type="text" id="classroom" name="classroom" required><br>
-        <button type="submit">予約</button>
-    </form>
+    <h2>ようこそ、<%= username %> さん</h2>
+    <p>予約を行うには、以下の時間から選択してください。</p>
+
+    <!-- 予約の選択画面 -->
+    
+    <a href="logout.jsp">ログアウト</a>
 </body>
 </html>

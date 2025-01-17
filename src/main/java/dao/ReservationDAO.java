@@ -27,26 +27,27 @@ public class ReservationDAO {
      */
     public boolean addReservation(int userId, String reservationDate, String reservationTime) {
         String query = "INSERT INTO reservations (user_id, reservation_date, reservation_time, status) " +
-                       "VALUES (?, ?, ?, 'confirmed')";
+                       "VALUES (?, ?, ?, 'reserved')";  // 'reserved' 状態で予約を追加
 
-        try (Connection conn = getConnection();
+        try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
              PreparedStatement ps = conn.prepareStatement(query)) {
 
             // パラメータを設定
-            ps.setInt(1, userId);
-            ps.setString(2, reservationDate);
-            ps.setString(3, reservationTime);
+            ps.setInt(1, userId);  // ユーザーID
+            ps.setDate(2, java.sql.Date.valueOf(reservationDate));  // yyyy-MM-dd 形式の日付
+            ps.setString(3, reservationTime);  // 予約時間
 
             // SQLを実行して予約をデータベースに登録
             int rowsAffected = ps.executeUpdate();
 
-            return rowsAffected > 0; // 1行以上追加されたら成功
+            return rowsAffected > 0;
 
         } catch (SQLException e) {
             e.printStackTrace();
-            return false; // エラー時は false を返す
+            return false;
         }
     }
+
 
     /**
      * 指定された日時の予約状態を 'reserved' に更新するメソッド
@@ -56,24 +57,21 @@ public class ReservationDAO {
      * @return 更新成功なら true、それ以外は false
      */
     public boolean markAsReserved(String date, String time) {
-        String query = "UPDATE reservations SET status = 'reserved' " +
-                       "WHERE reservation_date = ? AND reservation_time = ? AND status = 'available'";
+        String query = "UPDATE reservations SET status = 'reserved' WHERE reservation_date = ? AND reservation_time = ?";
 
-        try (Connection conn = getConnection();
+        try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
              PreparedStatement ps = conn.prepareStatement(query)) {
 
             // パラメータを設定
-            ps.setString(1, date);
+            ps.setDate(1, java.sql.Date.valueOf(date));  // yyyy-MM-dd 形式
             ps.setString(2, time);
 
-            // SQLを実行して予約状態を更新
             int rowsAffected = ps.executeUpdate();
-
-            return rowsAffected > 0; // 更新成功なら true
+            return rowsAffected > 0;
 
         } catch (SQLException e) {
             e.printStackTrace();
-            return false; // エラー時は false を返す
+            return false;
         }
     }
 
@@ -85,26 +83,21 @@ public class ReservationDAO {
      * @return 予約可能なら true、それ以外は false
      */
     public boolean checkAvailability(String date, String time) {
-        String sql = "SELECT COUNT(*) FROM reservations WHERE reservation_date = ? AND reservation_time = ? AND status = 'confirmed'";
-        
+        String sql = "SELECT status FROM reservations WHERE reservation_date = ? AND reservation_time = ?";
         try (Connection conn = getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            // パラメータを設定
             pstmt.setString(1, date);
             pstmt.setString(2, time);
-
-            // クエリを実行して結果を取得
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
-                int count = rs.getInt(1);
-                return count == 0; // 予約がない場合に true を返す
+                String status = rs.getString("status");
+                return "available".equals(status); // ステータスが "available" の場合に予約可能
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false; // デフォルトでは予約不可とする
+        return true; // デフォルトでは予約不可
     }
+
 
 }

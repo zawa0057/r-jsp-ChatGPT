@@ -30,9 +30,8 @@
     <nav>
         <a href="index.jsp">ホーム</a>
         <a href="mypage.jsp">マイページ</a>
-        <a href="schedule.jsp">スケジュール</a>
-        <a href="about.jsp">詳細情報</a>
-        <a href="contact.jsp">お問い合わせ</a>
+        <a href="schedule.jsp">KRC使用スケジュール表</a>
+        <a href="logout.jsp">ログアウト</a>
     </nav>
 </body>
 </html>

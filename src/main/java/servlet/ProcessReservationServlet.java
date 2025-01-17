@@ -7,7 +7,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import dao.ReservationDAO;
 
@@ -18,22 +17,13 @@ public class ProcessReservationServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         // フォームデータを取得
-        String date = request.getParameter("date");
+        String date = request.getParameter("date");  // yyyy-MM-dd 形式
         String time = request.getParameter("time");
-
-        // セッションからユーザーIDを取得
-        HttpSession session = request.getSession();
-        Integer userId = (Integer) session.getAttribute("userId");
-
-        if (userId == null) {
-            // セッションにユーザーIDがない場合はログインページへリダイレクト
-            response.sendRedirect("login.jsp");
-            return;
-        }
+        int userId = (Integer) request.getSession().getAttribute("userId"); // セッションから取得
 
         // DAOを使って予約処理を実行
         ReservationDAO dao = new ReservationDAO();
-        boolean success = dao.addReservation(userId, date, time); // 予約登録
+        boolean success = dao.addReservation(userId, date, time);  // 予約登録
         boolean marked = false;
 
         if (success) {
