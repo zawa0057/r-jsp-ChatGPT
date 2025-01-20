@@ -3,21 +3,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>ログイン</title>
+<meta charset="UTF-8">
+<title>ログイン画面</title>
 </head>
 <body>
-    <h2>ログイン</h2>
-    <form action="login" method="post">
-        <label for="username">ユーザー名:</label>
-        <input type="text" id="username" name="username" required><br>
-        <label for="password">パスワード:</label>
-        <input type="password" id="password" name="password" required><br>
-        <button type="submit">ログイン</button>
-    </form>
-    
-    <% if (request.getAttribute("errorMessage") != null) { %>
-        <p style="color: red;"><%= request.getAttribute("errorMessage") %></p>
-    <% } %>
+<form action="/r-jsp-ChatGPT/AccountSearch" method="post">
+ユーザーID：<input type="text" name="loginId" required><br>
+パスワード：<input type="password" name="pass" required><br>
+<input type="submit" value="ログイン"><br>
+</form>
+<p>
+アカウント登録がお済みでない方はこちらへ↓<br>
+<a href="register.jsp"><button>新規登録</button></a>
+</p>
 </body>
 </html>

@@ -1,6 +1,6 @@
- <jsp:include page="menu.jsp" />
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ page import="dao.ReservationDAO" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -53,18 +53,28 @@
         // リクエストパラメータから日時を取得
         String date = request.getParameter("date");
         String time = request.getParameter("time");
+        int userId = 1; // 仮にユーザーIDを1として処理（実際にはセッションなどから取得）
 
-        // 予約情報をデータベースに登録する処理（仮実装）
+        ReservationDAO dao = new ReservationDAO();
         boolean isReserved = false;
         String reservationMessage = "";
 
-        // 仮実装: 予約処理が成功した場合
-        // 実際には ReservationDAO を使って、予約処理を行い、成功したかどうかを判定する
+        // 予約可能か確認
         if (date != null && time != null) {
-            isReserved = true; // 仮に予約が成功した場合
-            reservationMessage = "予約が完了しました！";
+            boolean available = dao.checkAvailability(date, time);
+            if (available) {
+                // 予約をデータベースに追加
+                isReserved = dao.addReservation(userId, date, time);
+                if (isReserved) {
+                    reservationMessage = "予約が完了しました！";
+                } else {
+                    reservationMessage = "予約の登録に失敗しました。";
+                }
+            } else {
+                reservationMessage = "指定された日時はすでに予約されています。";
+            }
         } else {
-            reservationMessage = "予約に失敗しました。";
+            reservationMessage = "入力された情報に誤りがあります。";
         }
     %>
 

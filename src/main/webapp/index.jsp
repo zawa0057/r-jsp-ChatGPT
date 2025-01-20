@@ -56,7 +56,7 @@
         <li><a href="reservation_form.jsp">部屋を予約する</a></li>
         <li><a href="viewReservations.jsp">予約状況を確認する</a></li>
         <li><a href="cancelReservation.jsp">予約をキャンセルする</a></li>
-        <li><a href="registerUser.jsp">ユーザー登録</a></li>
+        <li><a href="register.jsp">ユーザー登録</a></li>
     </ul>
 </body>
 </html>
