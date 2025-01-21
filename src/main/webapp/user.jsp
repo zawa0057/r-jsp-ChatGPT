@@ -16,7 +16,7 @@
 <p>パスワード：<c:out value="${account.pass }"></c:out></p>
 <p>　　　名前：<c:out value="${account.name }"></c:out></p>
 <p>　　ロール：ユーザー</p>
-<p><a href="/login/Logout"><button type="button" >ログアウト</button></a></p>
+<p><a href="/r-jsp-ChatGPT/Logout"><button type="button" >ログアウト</button></a></p>
 <a href="admin.jsp"><button type="button" >管理者ページへ</button></a>
 </c:when>
 <c:when test="${account.role == 1 }">

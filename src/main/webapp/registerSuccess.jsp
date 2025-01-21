@@ -8,6 +8,6 @@
 </head>
 <body>
 新規登録が完了しました!
-<p><a href="/login/AccountCheck"><button type="button" name="aaa" >ユーザー or 管理者ページへ</button></a></p>
+<p><a href="/r-jsp-ChatGPT/AccountCheck"><button type="button" name="aaa" >ユーザー or 管理者ページへ</button></a></p>
 </body>
 </html>
