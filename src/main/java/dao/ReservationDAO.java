@@ -96,7 +96,7 @@ public class ReservationDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return true; // デフォルトでは予約不可
+        return false; // デフォルトでは予約不可
     }
 
 

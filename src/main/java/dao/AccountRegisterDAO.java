@@ -30,7 +30,7 @@ public class AccountRegisterDAO {
 			if(r != 0) {
 				System.out.println("新規登録成功！");
 			} else {
-				System.out.println("新規登録失敗( ﾉД`)ｼｸｼｸ…");
+				System.out.println("新規登録失敗");
 			}
 
 		} catch (SQLException e) {
