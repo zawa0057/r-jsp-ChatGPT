@@ -11,9 +11,11 @@ import model.AccountBeans;
 public class AccountDAO {
 	// データベース接続に使用する情報
 	final String jdbcId = "root";
-	final String jdbcPass = "password";
+	final String jdbcPass = "AdminDef";
 	final String jdbcUrl = "jdbc:mysql://localhost:3306//reservationsystem?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=JST";
+	                  //前のURLjdbc:mysql://localhost:3306//reservationsystem?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=JST
 
+    
 	// ログインアカウントを探す
 	public AccountBeans findAccount(AccountBeans ab) {
 
