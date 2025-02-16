@@ -34,7 +34,7 @@ public class ProcessReservationServlet extends HttpServlet {
         if (success && marked) {
             request.setAttribute("message", "予約が完了しました！");
         } else {
-            request.setAttribute("message", "予約に失敗しました。");
+            request.setAttribute("message", "予約に失敗しましたわよ。");
         }
 
         // 結果ページへフォワード

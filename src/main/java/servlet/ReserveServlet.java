@@ -29,7 +29,7 @@ public class ReserveServlet extends HttpServlet {
         if (success) {
             request.setAttribute("message", "予約が完了しました！");
         } else {
-            request.setAttribute("message", "予約に失敗しました。");
+            request.setAttribute("message", "予約に失敗しましたヨ。");
         }
 
         // 結果ページに転送
